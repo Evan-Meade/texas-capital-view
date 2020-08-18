@@ -15,6 +15,7 @@ import configparser
 
 class HouseScraper:
     def __init__(self):
+        print('Initializing HouseScraper...')
         self.BASE_URL = 'https://journals.house.texas.gov'
         self.QUERY_URL = 'https://journals.house.texas.gov/hjrnl/home.htm'
         self.MIN_YEAR = 82
@@ -30,7 +31,15 @@ class HouseScraper:
 
         self.driver = webdriver.Chrome(options=self.options, executable_path=self.chrome_driver_dir)
 
-    def query_years(self):
+        if os.path.isfile(os.path.join(self.base_dir, 'data', 'sessions.csv')):
+            print('Loading sessions list...')
+            self.url_list = pd.read_csv(os.path.join(self.base_dir, 'data', 'sessions.csv'), index_col='session')
+            print('Loading complete.')
+        
+        print('Initialization complete.')
+
+    def query_sessions(self):
+        print('Querying session list...')
         self.driver.get(self.QUERY_URL)
         soup = BeautifulSoup(self.driver.page_source, 'html.parser')
 
@@ -46,9 +55,16 @@ class HouseScraper:
                 if year >= self.MIN_YEAR:
                     self.url_list.loc[match.group(), 'url'] = self.BASE_URL + s['value']
         
+        print('Done querying session list.')
         print(self.url_list)
 
+        print('Writing session list...')
         data_dir = os.path.join(self.base_dir, 'data')
         if not os.path.isdir(data_dir):
             os.mkdir(data_dir)
         self.url_list.to_csv(os.path.join(data_dir, 'sessions.csv'))
+        print('Done writing session list.')
+    
+    def grab_journal(self, session):
+        if self.url_list.shape[0] == 0:
+            self.query_sessions()
