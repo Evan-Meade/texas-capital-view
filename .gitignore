@@ -1,0 +1,8 @@
+# Ignore any pulled or derived data
+data/
+
+# Ignore configuration files
+*.ini
+
+# Ignore virtual environment
+env/
