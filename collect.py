@@ -1,4 +1,7 @@
-from txcapital.collect import HouseMemberScraper
+from txcapital.collect import HouseMemberScraper, SenateMemberScraper
 
-hsm = HouseMemberScraper()
-hsm.get_member_list()
+hms = HouseMemberScraper()
+hms.get_member_list()
+
+sms = SenateMemberScraper()
+sms.get_member_list()

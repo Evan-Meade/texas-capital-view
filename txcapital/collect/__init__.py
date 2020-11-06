@@ -1,1 +1,2 @@
 from txcapital.collect.house_member_scraper import HouseMemberScraper
+from txcapital.collect.senate_member_scraper import SenateMemberScraper
