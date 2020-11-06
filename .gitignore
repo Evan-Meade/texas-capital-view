@@ -6,3 +6,9 @@ data/
 
 # Ignore virtual environment
 env/
+
+# Ignore pycaches
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
