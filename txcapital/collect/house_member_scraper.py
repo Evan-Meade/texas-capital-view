@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from uuid import uuid4
 from txcapital import db
+import re
 
 
 HOUSE_BASE_URL = 'https://house.texas.gov'
@@ -29,7 +30,7 @@ class HouseMemberScraper:
             member_name = div.find('strong').text.strip()
             split_name = member_name.split()
             first_name = split_name[2]
-            last_name = re.search('[a-zA-Z]+', split_name[1])
+            last_name = re.search('[a-zA-Z]+', split_name[1]).group()
             name = {
                 'first': first_name,
                 'last': last_name
